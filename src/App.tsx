@@ -1,26 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import { View } from "./types";
+import { BoomSDKView } from "./views/boom-sdk-view";
+import { HomeView } from "./views/home-view";
+import { PlaidView } from "./views/plaid-view";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  // Ideally obtained from your backend
+  const [token, setToken] = useState("");
+  const [toPage, setToPage] = useState<string>("");
+
+  const [view, setView] = useState<View>(View.Home);
+
+  if (view === View.Home)
+    return <HomeView setView={setView} setToken={setToken} token={token} />;
+  if (view === View.Plaid)
+    return (
+      <PlaidView
+        onSuccess={() => {
+          setToPage("/rent_reporting/onboarding/intro");
+          setView(View.SDK);
+        }}
+        token={token}
+      />
+    );
+
+  return <BoomSDKView setView={setView} token={token} toPage={toPage} />;
 }
 
 export default App;
