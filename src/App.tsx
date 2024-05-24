@@ -17,14 +17,20 @@ function App() {
     return (
       <PlaidView
         onSuccess={() => {
-          setToPage("/rent_reporting/onboarding/intro");
           setView(View.SDK);
         }}
         token={token}
       />
     );
 
-  return <BoomSDKView setView={setView} token={token} toPage={toPage} />;
+  return (
+    <BoomSDKView
+      setView={setView}
+      token={token}
+      toPage={toPage}
+      setToPage={setToPage}
+    />
+  );
 }
 
 export default App;

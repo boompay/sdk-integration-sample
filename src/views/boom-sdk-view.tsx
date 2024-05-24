@@ -7,10 +7,12 @@ export const BoomSDKView = ({
   setView,
   token,
   toPage,
+  setToPage,
 }: {
   setView: React.Dispatch<React.SetStateAction<View>>;
   token: string;
   toPage: string;
+  setToPage: React.Dispatch<React.SetStateAction<string>>;
 }) => {
   useEffect(() => {
     const listener = (event: MessageEvent<string>) => {
@@ -37,6 +39,8 @@ export const BoomSDKView = ({
             // If integrate is enabled, this event is triggered
             case "plaid_link_handoff":
               setView(View.Plaid);
+              // Redirect back
+              setToPage(data.source || "");
               break;
             // Analytics events
             // Pageviews, clicks
