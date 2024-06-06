@@ -8,11 +8,15 @@ export const BoomSDKView = ({
   token,
   toPage,
   setToPage,
+  awaitPlaidLink,
+  setAwaitPlaidLink,
 }: {
   setView: React.Dispatch<React.SetStateAction<View>>;
   token: string;
   toPage: string;
   setToPage: React.Dispatch<React.SetStateAction<string>>;
+  awaitPlaidLink: boolean;
+  setAwaitPlaidLink: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   useEffect(() => {
     const listener = (event: MessageEvent<string>) => {
@@ -40,7 +44,9 @@ export const BoomSDKView = ({
             case "plaid_link_handoff":
               setView(View.Plaid);
               // Redirect back
+              setAwaitPlaidLink(false);
               setToPage(data.source || "");
+
               break;
             // Analytics events
             // Pageviews, clicks
@@ -65,7 +71,9 @@ export const BoomSDKView = ({
         height="100%"
         width="100%"
         allow="fullscreen; clipboard-write *"
-        src={`${root}${toPage || "/"}?token=${token}&has_close=true`}
+        src={`${root}${toPage || "/"}?token=${token}&has_close=true${
+          awaitPlaidLink ? "&await_plaid_link=true" : ""
+        }`}
       />
     </div>
   );

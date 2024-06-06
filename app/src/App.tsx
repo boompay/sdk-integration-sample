@@ -8,6 +8,7 @@ function App() {
   // Ideally obtained from your backend
   const [token, setToken] = useState("");
   const [toPage, setToPage] = useState<string>("");
+  const [awaitPlaidLink, setAwaitPlaidLink] = useState<boolean>(false);
 
   const [view, setView] = useState<View>(View.Home);
 
@@ -17,6 +18,7 @@ function App() {
     return (
       <PlaidView
         onSuccess={() => {
+          setAwaitPlaidLink(true);
           setView(View.SDK);
         }}
         token={token}
@@ -29,6 +31,8 @@ function App() {
       token={token}
       toPage={toPage}
       setToPage={setToPage}
+      awaitPlaidLink={awaitPlaidLink}
+      setAwaitPlaidLink={setAwaitPlaidLink}
     />
   );
 }
